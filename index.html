@@ -1,9 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-	<h1>New HTML coding</h1>
+
+  <input type="file">
+  <input type="text">
+  <button id="btn"> Get Response</button>
+  <div id="res"></div>
+    
+    <script type="importmap">
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
+        }
+      </script>
+      <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+  
+        // Fetch your API_KEY
+        const API_KEY = "AIzaSyB-r03lZgPX-o6zliaTDnCxsdzw-Sg5Ufc";
+  
+        // Access your API key (see "Set up your API key" above)
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        async function run() {
+
+          let msg = document.getElementById('msg').value
+  // For text-only input, use the gemini-pro model
+  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+
+  let fromPlace = document.getElementById('fromPlace').value
+  let toPlace = document.getElementById('toPlace').value
+  let duration = document.getElementById('duration').value
+
+  let promptMsg = '
+  Create a travel itinerary from 
+  ${toPlace} to ${fromPlace} for ${duration} Days'
+
+
+  console.log('Gemini is working and processing...');
+
+  const prompt = "Write a story about a magic backpack."
+
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  const text = response.text();
+  console.log(text);
+}
+  
+ run();
+        // ...
+  
+        const model = genAI.getGenerativeModel({ model: "MODEL_NAME"});
+  
+        // ...
+      </script>
 </body>
 </html>
