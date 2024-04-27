@@ -1,32 +1,40 @@
-<html>
-    <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+
+</head>
 <body>
-    <!-- ... Your HTML and CSS -->
-    <input type="text" id="from" placeholder="Starting Point">
+  
+  <input type="text" id="from" placeholder="Starting Point">
     <input type="text" id="to" placeholder="Ending Point">
     <input type="text" id="dur" placeholder="Number of Days">
     <button id="btn">Get Response</button>
     <div id="res">
 
     </div>
-
+    
     <script type="importmap">
-      {
-        "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        {
+          "imports": {
+            "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          }
         }
-      }
-    </script>
-    <script type="module">
+      </script>
+      <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
-
+  
         // Fetch your API_KEY
-        const API_KEY = "AIzaSyCSWNLTp86vHlWsHDA3M8wMv6G_AHwQvTw";
+        const API_KEY = "AIzaSyB-r03lZgPX-o6zliaTDnCxsdzw-Sg5Ufc";
+  
+        // Access your API key (see "Set up your API key" above)
         const genAI = new GoogleGenerativeAI(API_KEY);
 
-        async function run() {
+        async function run(){
             // For text-only input, use the gemini-pro model
             let startPoint = document.getElementById("from").value
             let endPoint = document.getElementById("to").value
@@ -41,12 +49,14 @@
             document.getElementById('res').innerHTML = text
             console.log(text);
         }
-
-        document.getElementById('btn').addEventListener('click', ()=>{
-            run()
-        })
-
-    </script>
+  
+ run();
+        // ...
+  
+        const model = genAI.getGenerativeModel({ model: "MODEL_NAME"});
+  
+        // ...
+      </script>
 </body>
-
 </html>
+
