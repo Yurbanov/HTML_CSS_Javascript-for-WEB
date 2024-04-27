@@ -1,66 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    </head>
 <body>
+    <!-- ... Your HTML and CSS -->
+    <input type="text" id="from" placeholder="Starting Point">
+    <input type="text" id="to" placeholder="Ending Point">
+    <input type="text" id="dur" placeholder="Number of Days">
+    <button id="btn">Get Response</button>
+    <div id="res">
 
-  <input type="file">
-  <input type="text">
-     <input type="text">
-     <input type="text">
-  <button id="btn"> Get Response</button>
-  <div id="res"></div>
-    
+    </div>
+
     <script type="importmap">
-        {
-          "imports": {
-            "@google/generative-ai": "https://esm.run/@google/generative-ai"
-          }
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
         }
-      </script>
-      <script type="module">
+      }
+    </script>
+    <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
-  
+
         // Fetch your API_KEY
-        const API_KEY = "AIzaSyB-r03lZgPX-o6zliaTDnCxsdzw-Sg5Ufc";
-  
-        // Access your API key (see "Set up your API key" above)
+        const API_KEY = "AIzaSyCSWNLTp86vHlWsHDA3M8wMv6G_AHwQvTw";
         const genAI = new GoogleGenerativeAI(API_KEY);
 
         async function run() {
+            // For text-only input, use the gemini-pro model
+            let startPoint = document.getElementById("from").value
+            let endPoint = document.getElementById("to").value
+            let duration = document.getElementById("dur").value
+            let promptMsg = `Create a travel itinerary from ${startPoint} to ${endPoint} for ${duration} days`
+            console.log('calling');
+            const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
+            const prompt = promptMsg
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+            document.getElementById('res').innerHTML = text
+            console.log(text);
+        }
 
-          let msg = document.getElementById('msg').value
-  // For text-only input, use the gemini-pro model
-  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+        document.getElementById('btn').addEventListener('click', ()=>{
+            run()
+        })
 
-  let fromPlace = document.getElementById('fromPlace').value
-  let toPlace = document.getElementById('toPlace').value
-  let duration = document.getElementById('duration').value
-
-  let promptMsg = '
-  Create a travel itinerary from 
-  ${toPlace} to ${fromPlace} for ${duration} Days'
-
-
-  console.log('Gemini is working and processing...');
-
-  const prompt = "Write a story about a magic backpack."
-
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-}
-  
- run();
-        // ...
-  
-        const model = genAI.getGenerativeModel({ model: "MODEL_NAME"});
-  
-        // ...
-      </script>
+    </script>
 </body>
+
 </html>
